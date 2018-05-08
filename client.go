@@ -57,6 +57,9 @@ func (a *Client) Copy(r io.Reader, remotePath string, permissions string, size i
 		io.Copy(w, r)
 		fmt.Fprintln(w, "\x00")
 	}()
-
+	// This is the magic command to redirect data into this directory, 
+	// note that: 
+	//  - you need to make sure this directory is there to get it work.
+	//  - since we talk to a ssh server, most likely sshd, scp command should be available there. 
 	a.Session.Run("/usr/bin/scp -t " + directory)
 }
